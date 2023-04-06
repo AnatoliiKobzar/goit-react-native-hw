@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -12,6 +12,8 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 const initialState = {
   login: '',
@@ -46,9 +48,26 @@ export default function RegistrationScreen() {
     };
   }, []);
 
+  SplashScreen.preventAutoHideAsync();
+
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
         <Image
           style={styles.background}
           resizeMode={'cover'}
@@ -137,7 +156,12 @@ export default function RegistrationScreen() {
               {!keyboardStatus && (
                 <View>
                   <TouchableOpacity style={styles.btn}>
-                    <Text style={styles.btnText} onPress={() => setUserData(initialState)}>
+                    <Text
+                      style={styles.btnText}
+                      onPress={() => {
+                        setUserData(initialState), console.log(userData);
+                      }}
+                    >
                       Зарегистрироваться
                     </Text>
                   </TouchableOpacity>
@@ -183,7 +207,7 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     fontSize: 30,
-    fontWeight: 500,
+    fontFamily: 'Roboto-Medium',
     textAlign: 'center',
     marginBottom: 32,
   },
