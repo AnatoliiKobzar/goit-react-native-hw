@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Image,
   StyleSheet,
@@ -11,8 +11,6 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 
 const initialState = {
   email: '',
@@ -45,26 +43,9 @@ export default function LoginScreen() {
     };
   }, []);
 
-  SplashScreen.preventAutoHideAsync();
-
-  const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
-    'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
+      <View style={styles.container}>
         <Image
           style={styles.background}
           resizeMode={'cover'}
