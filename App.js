@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import LoginScreen from './Screens/LoginScreen';
-import RegistrationScreen from './Screens/RegistrationScreen';
-import { PostsScreen } from './Screens/PostsScreen';
-import { CreatePostsScreen } from './Screens/CreatePostsScreen';
+import LoginScreen from './Screens/Auth/LoginScreen';
+import RegistrationScreen from './Screens/Auth/RegistrationScreen';
+import { PostsScreen } from './Screens/Main/PostsScreen';
+import { CreatePostsScreen } from './Screens/Main/CreatePostsScreen';
+import { ProfileScreen } from './Screens/Main/ProfileScreen';
 import { CommentsScreen } from './Screens/CommentsScreen';
-import { ProfileScreen } from './Screens/ProfileScreen';
 import { MapScreen } from './Screens/MapScreen';
 import { Home } from './Screens/Home';
 
@@ -12,8 +12,9 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();
@@ -34,23 +35,45 @@ export default function App() {
   }
 
   const AuthStack = createStackNavigator();
+  const MainTab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <AuthStack.Navigator>
-          <AuthStack.Screen name="Login" component={LoginScreen} />
-          <AuthStack.Screen name="Register" component={RegistrationScreen} />
-          {/* <PostsScreen /> */}
-          {/* <CreatePostsScreen /> */}
-          {/* <CommentsScreen /> */}
-          {/* <ProfileScreen /> */}
-          {/* <MapScreen /> */}
-          {/* <Home /> */}
-        </AuthStack.Navigator>
-      </View>
-    </NavigationContainer>
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <NavigationContainer>
+        {/* <AuthStack.Navigator>
+          <AuthStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <AuthStack.Screen
+            name="Register"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          />
+        </AuthStack.Navigator> */}
+        <MainTab.Navigator>
+          <MainTab.Screen name="Posts" component={PostsScreen} />
+          <MainTab.Screen name="CreatePosts" component={CreatePostsScreen} />
+          <MainTab.Screen name="Profile" component={ProfileScreen} />
+        </MainTab.Navigator>
+      </NavigationContainer>
+    </View>
   );
+}
+{
+  /* <PostsScreen /> */
+}
+{
+  /* <CreatePostsScreen /> */
+}
+{
+  /* <CommentsScreen /> */
+}
+{
+  /* <ProfileScreen /> */
+}
+{
+  /* <MapScreen /> */
+}
+{
+  /* <Home /> */
 }
 
 const styles = StyleSheet.create({

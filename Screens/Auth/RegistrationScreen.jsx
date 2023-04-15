@@ -19,7 +19,7 @@ const initialState = {
   password: '',
 };
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [keyboardStatus, setKeyboardStatus] = useState(false);
   const [passwordHide, setPasswordHide] = useState(true);
   const [userData, setUserData] = useState(initialState);
@@ -52,11 +52,11 @@ export default function RegistrationScreen() {
         <Image
           style={styles.background}
           resizeMode={'cover'}
-          source={require('../assets/Images/PhotoBG.jpg')}
+          source={require('../../assets/Images/PhotoBG.jpg')}
         />
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : ''}>
           <View style={{ ...styles.form, paddingBottom: keyboardStatus ? 32 : 78 }}>
-            <Image style={styles.formImg} source={require('../assets/Images/add_photo.png')} />
+            <Image style={styles.formImg} source={require('../../assets/Images/add_photo.png')} />
             <View style={styles.formWrap}>
               <Text style={styles.formTitle}>Регистрация</Text>
               <TextInput
@@ -146,7 +146,12 @@ export default function RegistrationScreen() {
                       Зарегистрироваться
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnLogin}>
+                  <TouchableOpacity
+                    style={styles.btnLogin}
+                    onPress={() => {
+                      navigation.navigate('Login');
+                    }}
+                  >
                     <Text style={styles.btnLoginText}>Уже есть аккаунт? Войти</Text>
                   </TouchableOpacity>
                 </View>
