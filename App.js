@@ -1,9 +1,5 @@
 import { StyleSheet, View } from 'react-native';
 
-import { CommentsScreen } from './Screens/CommentsScreen';
-import { MapScreen } from './Screens/MapScreen';
-import { Home } from './Screens/Home';
-
 import { NavigationContainer } from '@react-navigation/native';
 
 import { useFonts } from 'expo-font';
@@ -36,16 +32,6 @@ export default function App() {
       <NavigationContainer>{routing}</NavigationContainer>
     </View>
   );
-}
-
-{
-  /* <CommentsScreen /> */
-}
-{
-  /* <MapScreen /> */
-}
-{
-  /* <Home /> */
 }
 
 const styles = StyleSheet.create({
