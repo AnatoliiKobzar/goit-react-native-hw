@@ -16,8 +16,8 @@ export const useRoute = isAuth => {
   if (isAuth) {
     return (
       <MainTab.Navigator
-        tabBarOptions={{ showLabel: false }}
         screenOptions={{
+          tabBarShowLabel: false,
           tabBarActiveTintColor: '#ffffff',
           tabBarActiveBackgroundColor: '#FF6C00',
           tabBarStyle: { borderRadius: 4 },
