@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
+import * as Location from 'expo-location';
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -9,15 +10,26 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState('');
   const [type, setType] = useState(Camera.Constants.Type.back);
 
-  const sendPhoto = () => {
+  const sendPhoto = async () => {
     navigation.navigate('Posts', { photo });
+  };
+
+  const takePhoto = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync();
+      setPhoto(uri);
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+
+    console.log(location.coords.latitude);
+    console.log(location.coords.longitude);
   };
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
-
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -46,16 +58,7 @@ export const CreatePostsScreen = ({ navigation }) => {
             >
               <Text style={{ fontSize: 18, marginBottom: -10, color: 'white' }}> Flip </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={async () => {
-                if (cameraRef) {
-                  const { uri } = await cameraRef.takePictureAsync();
-                  setPhoto(uri);
-                  await MediaLibrary.createAssetAsync(uri);
-                }
-              }}
-            >
+            <TouchableOpacity style={styles.button} onPress={takePhoto}>
               <View style={styles.takePhotoOut}>
                 <View style={styles.takePhotoInner}></View>
               </View>

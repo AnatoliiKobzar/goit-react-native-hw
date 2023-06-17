@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Text, View, FlatList, StyleSheet, Image } from 'react-native';
+import { nanoid } from 'nanoid';
 
 export const PostsScreen = ({ route }) => {
   const [posts, setPosts] = useState([]);
@@ -13,6 +14,7 @@ export const PostsScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <FlatList
+        key={nanoid()}
         data={posts}
         keyExtractor={(item, index) => {
           index.toString();
